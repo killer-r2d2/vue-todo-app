@@ -1,7 +1,4 @@
 <template>
-  <div class="about">
-    <h1>This is an about page</h1>
-  </div>
   <div class="container">
     <div class="notification is-primary">
       This container is <strong>centered</strong> on desktop and larger
@@ -9,3 +6,16 @@
     </div>
   </div>
 </template>
+
+<script>
+export default {
+  name: "InputContainer",
+  props: {
+    msg: String,
+  },
+};
+</script>
+
+<!-- Add "scoped" attribute to limit CSS to this component only 
+-->
+<style scoped></style>
