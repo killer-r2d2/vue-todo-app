@@ -1,21 +1,28 @@
 <template>
   <div class="container">
-    <img  :src="image" alt="">
-    <form>
-      <label for="fname">Todo</label>
-      <input @keypress.enter="addToList" type="text" id="todo" name="todo" />
-    </form>
-    <div>Message is: {{ message }}</div>
+
+    <div v-if="!isEditing">
+      <input type="text" v-model="todo">
+      <input type="submit" value="add" @click="storeTodo">
+    </div>  
+
+    <div v-else>
+      <input type="text" v-model="todo">
+      <input type="submit" value="update" @click="updateTodo">
+    </div>
+    
     <ul>
       <li
-       v-for="todo in todos"
+       v-for="(todo, index) in todos"
        :key="todo.id"
        class="listItem">{{ todo }}
+
+      <button @click="editTodo(index, todo)">Edit</button>
+      <button @click="deleteTodo(index)">Delet</button>
+
        </li>
 
     </ul>
-    <div class="cart">Todo's({{ cart }})</div>
-    <button class="button" v-on:click="addToList">Add to list</button>
   </div>
 </template>
 
@@ -27,17 +34,40 @@ export default {
   },
   data() {
     return {
-      image: './assets/logo.png',
-      todoItem: "",
-      cart: 0,
+      todo: "",
       todos: ["wash", "cook", "sing", "swimm"],
-      message: "",
+      selectedIndex: null,
+      isEditing: false,
+      
+
+      
     }
   },
+
+
   methods: {
-    addToList: function () {
-      alert("addToList works");
+
+    storeTodo() {
+      this.todos.push(this.todo)
+      this.todo = ""
+    },
+
+    editTodo(index, todo) {
+      this.todo = todo
+      this.selectedIndex = index
+      this.isEditing = true
+    },
+
+    updateTodo() {
+      this.todos.splice(this.selectedIndex, 1, this.todo)
+      this.todo = ""
+      this.isEditing = false
+    },
+
+    deleteTodo(index) {
+      this.todos.splice(index, 1)
     }
+
   }
 };
 
